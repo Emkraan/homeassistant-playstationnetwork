@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions (questions & help)
+    url: https://github.com/Emkraan/ha-playstation-network/discussions
+    about: Ask questions and get help from the community
+  - name: PlayStation Network support
+    url: https://www.playstation.com/en-us/support/
+    about: Official Sony PlayStation support
+  - name: psnawp library
+    url: https://github.com/isFakeAccount/psnawp
+    about: The underlying PSN API library used by this integration

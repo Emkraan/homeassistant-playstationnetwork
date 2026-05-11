@@ -1,0 +1,63 @@
+name: Feature Request
+description: Suggest a new feature or improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check [existing issues](https://github.com/Emkraan/ha-playstation-network/issues) before submitting a new request.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this feature solve? What are you currently unable to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the feature you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you found any workarounds or alternative approaches?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: data_source
+    attributes:
+      label: Data source
+      description: Where would the data for this feature come from?
+      options:
+        - PSN cloud API (already used)
+        - Local network / console discovery
+        - Unknown / needs research
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: api_evidence
+    attributes:
+      label: API or protocol evidence (optional)
+      description: If you know of an API endpoint or protocol that supports this feature, link it here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: This feature is related to PlayStation Network data, not a general Home Assistant request
+          required: true

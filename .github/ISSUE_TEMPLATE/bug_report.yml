@@ -1,0 +1,106 @@
+name: Bug Report
+description: Report a problem with the PlayStation Network integration
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please check [existing issues](https://github.com/Emkraan/ha-playstation-network/issues) to avoid duplicates.
+
+  - type: input
+    id: integration_version
+    attributes:
+      label: Integration version
+      description: Found in HACS → Integrations → PlayStation Network
+      placeholder: "e.g. 2026.5.0-beta"
+    validations:
+      required: true
+
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+      placeholder: "e.g. 2026.5.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install_method
+    attributes:
+      label: Installation method
+      options:
+        - HACS (custom repository)
+        - Manual
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - Authentication / token refresh
+        - Setup / config flow
+        - Online status sensor
+        - Media player entities
+        - Trophy sensors
+        - Image entities
+        - Notify entities
+        - Friend subentries
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug logs
+      description: |
+        Enable debug logging by adding the following to `configuration.yaml`, then reproduce the issue and paste the relevant log lines here.
+        ```yaml
+        logger:
+          default: warning
+          logs:
+            custom_components.playstation_network: debug
+        ```
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I am using a supported version of Home Assistant (2024.1.0+)
+          required: true
+        - label: I have included debug logs if the issue is authentication or data related
+          required: false
