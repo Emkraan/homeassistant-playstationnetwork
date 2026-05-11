@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.5.5-beta (2026-05-11)
+
+### Fixed
+- Removed `translations/en.json` entirely — custom integrations load `strings.json` directly; shipping `translations/en.json` causes HA's frontend to cache its contents and serve stale translation text even after updates
+
 ## 2026.5.4-beta (2026-05-11)
 
 ### Fixed
