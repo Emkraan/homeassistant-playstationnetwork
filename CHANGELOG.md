@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.5.1-beta (2026-05-11)
+
+### Fixed
+- `MALFORMED_ARGUMENT` translation error caused by percent-encoded characters in the bookmarklet URL inside `data_description` — the bookmarklet has been moved to the `description` field and `data_description` is now plain text
+
 ## 2026.5.0-beta (2026-05-11)
 
 ### Added
