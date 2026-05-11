@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.5.6-beta (2026-05-11)
+
+### Fixed
+- Restored `translations/en.json` (identical to `strings.json`) — both files are required for correct operation; the frontend loads `translations/en.json` while the backend uses `strings.json`
+
 ## 2026.5.5-beta (2026-05-11)
 
 ### Fixed
