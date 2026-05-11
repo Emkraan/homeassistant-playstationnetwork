@@ -1,40 +1,40 @@
 {
   "config": {
     "abort": {
-      "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
+      "already_configured": "Already configured",
       "already_configured_as_subentry": "Already configured as a friend for another account. Delete the existing entry first.",
-      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
-      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]",
+      "reauth_successful": "Re-authentication was successful",
+      "reconfigure_successful": "Re-configuration was successful",
       "unique_id_mismatch": "The provided NPSSO token corresponds to the account {wrong_account}. Please re-authenticate with the account **{name}**"
     },
     "error": {
-      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-      "invalid_account": "[%key:common::config_flow::error::invalid_access_token%]",
-      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
-      "unknown": "[%key:common::config_flow::error::unknown%]"
+      "cannot_connect": "Failed to connect",
+      "invalid_account": "Invalid access token",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error"
     },
     "initiate_flow": {
-      "user": "[%key:common::config_flow::initiate_flow::account%]"
+      "user": "Add account"
     },
     "step": {
       "reauth_confirm": {
         "data": {
-          "npsso": "[%key:component::playstation_network::config::step::user::data::npsso%]"
+          "npsso": "NPSSO token"
         },
         "data_description": {
-          "npsso": "[%key:component::playstation_network::config::step::user::data_description::npsso%]"
+          "npsso": "Paste the 64-character NPSSO token from the Sony SSO page. This is only needed once — the integration stores the refresh token and renews it automatically."
         },
-        "description": "The NPSSO token for **{name}** has expired. To obtain a new one, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.\n\nNote: After obtaining the NPSSO token, do not log out of your PlayStation account, as this will invalidate the token.",
+        "description": "The NPSSO token for **{name}** has expired. Log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.\n\nNote: Do not log out of your PlayStation account after obtaining the NPSSO token.",
         "title": "Re-authenticate {name} with PlayStation Network"
       },
       "reconfigure": {
         "data": {
-          "npsso": "[%key:component::playstation_network::config::step::user::data::npsso%]"
+          "npsso": "NPSSO token"
         },
         "data_description": {
-          "npsso": "[%key:component::playstation_network::config::step::user::data_description::npsso%]"
+          "npsso": "Paste the 64-character NPSSO token from the Sony SSO page. This is only needed once — the integration stores the refresh token and renews it automatically."
         },
-        "description": "[%key:component::playstation_network::config::step::user::description%]",
+        "description": "**Step 1:** Log in to your [PlayStation account]({psn_link}).\n\n**Step 2:** [Click here]({npsso_link}) — a JSON page will appear. Copy the value of `npsso` and paste it below.\n\n**Note:** Do not log out of your PlayStation account after copying the token — logging out invalidates it immediately.",
         "title": "Update PlayStation Network configuration"
       },
       "user": {
@@ -58,8 +58,8 @@
       },
       "entry_type": "Friend",
       "error": {
-        "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-        "unknown": "[%key:common::config_flow::error::unknown%]"
+        "cannot_connect": "Failed to connect",
+        "unknown": "Unexpected error"
       },
       "initiate_flow": {
         "user": "Add friend"
@@ -89,7 +89,7 @@
         "name": "Avatar"
       },
       "now_playing_image": {
-        "name": "[%key:component::playstation_network::entity::sensor::now_playing::name%]"
+        "name": "Now playing"
       },
       "share_profile": {
         "name": "Share profile"
@@ -106,11 +106,11 @@
     "sensor": {
       "earned_trophies_bronze": {
         "name": "Bronze trophies",
-        "unit_of_measurement": "[%key:component::playstation_network::entity::sensor::earned_trophies_platinum::unit_of_measurement%]"
+        "unit_of_measurement": "trophies"
       },
       "earned_trophies_gold": {
         "name": "Gold trophies",
-        "unit_of_measurement": "[%key:component::playstation_network::entity::sensor::earned_trophies_platinum::unit_of_measurement%]"
+        "unit_of_measurement": "trophies"
       },
       "earned_trophies_platinum": {
         "name": "Platinum trophies",
@@ -118,7 +118,7 @@
       },
       "earned_trophies_silver": {
         "name": "Silver trophies",
-        "unit_of_measurement": "[%key:component::playstation_network::entity::sensor::earned_trophies_platinum::unit_of_measurement%]"
+        "unit_of_measurement": "trophies"
       },
       "last_online": {
         "name": "Last online"

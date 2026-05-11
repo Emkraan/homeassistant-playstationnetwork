@@ -1,7 +1,7 @@
 {
   "domain": "playstation_network",
   "name": "PlayStation Network",
-  "version": "2026.5.1-beta",
+  "version": "2026.5.2-beta",
   "codeowners": ["@Emkraan"],
   "config_flow": true,
   "dhcp": [
@@ -87,7 +87,7 @@
       "hostname": "ps3"
     }
   ],
-  "documentation": "https://www.home-assistant.io/integrations/playstation_network",
+  "documentation": "https://github.com/Emkraan/ha-playstation-network",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "quality_scale": "bronze",

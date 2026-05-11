@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.5.2-beta (2026-05-11)
+
+### Fixed
+- Removed all `[%key:...]` references from `strings.json` and `translations/en.json` — this syntax is only valid in HA core and caused `MALFORMED_ARGUMENT` errors in custom components. All strings are now fully resolved literals
+- Fixed `documentation` URL in `manifest.json` pointing to HA docs instead of this repo (controls the help `?` button in the config flow)
+
 ## 2026.5.1-beta (2026-05-11)
 
 ### Fixed
