@@ -32,9 +32,9 @@
           "npsso": "NPSSO token"
         },
         "data_description": {
-          "npsso": "Your NPSSO token is a 64-character string used to authenticate your PlayStation Network account in Home Assistant. It is refreshed automatically so you should rarely need to re-enter it.\n\n**How to get your NPSSO token:**\n1. Log in to your [PlayStation account]({psn_link}).\n2. [Click here]({npsso_link}) to open the Sony SSO cookie page — the token appears as the value of `npsso` in the JSON.\n3. Copy that value and paste it in the field below.\n\n**Bookmarklet (optional):** Drag the following link to your bookmarks bar. When clicked on any PlayStation Network page while logged in, it will extract your NPSSO cookie automatically.\n\n[Get NPSSO Token](javascript:(function(){var%20n=document.cookie.split(';').map(c=>c.trim()).find(c=>c.startsWith('npsso='));if(n){var%20token=n.split('=')[1];prompt('Copy%20your%20NPSSO%20token:',token);}else{alert('NPSSO%20cookie%20not%20found.%20Make%20sure%20you%20are%20logged%20in%20to%20PlayStation%20Network.');}})()\n\n**Note:** Do not log out of your PlayStation account after obtaining the NPSSO token — logging out invalidates it."
+          "npsso": "Paste the 64-character NPSSO token from the Sony SSO page. This is only needed once — the integration stores the refresh token and renews it automatically."
         },
-        "description": "To obtain your NPSSO token, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.\n\nNote: Do not log out of your PlayStation account after obtaining the NPSSO token.",
+        "description": "**Step 1:** Log in to your [PlayStation account]({psn_link}).\n\n**Step 2:** [Click here]({npsso_link}) — a JSON page will appear. Copy the value of `npsso` and paste it below.\n\n**Note:** Do not log out of your PlayStation account after copying the token — logging out invalidates it immediately.",
         "title": "Update PlayStation Network configuration"
       },
       "user": {
@@ -42,9 +42,9 @@
           "npsso": "NPSSO token"
         },
         "data_description": {
-          "npsso": "Your NPSSO token is a 64-character string used to authenticate your PlayStation Network account in Home Assistant. It is refreshed automatically so you should rarely need to re-enter it.\n\n**How to get your NPSSO token:**\n1. Log in to your [PlayStation account]({psn_link}).\n2. [Click here]({npsso_link}) to open the Sony SSO cookie page — the token appears as the value of `npsso` in the JSON.\n3. Copy that value and paste it in the field below.\n\n**Bookmarklet (optional):** Drag the following link to your bookmarks bar. When clicked on any PlayStation Network page while logged in, it will extract your NPSSO cookie automatically.\n\n[Get NPSSO Token](javascript:(function(){var%20n=document.cookie.split(';').map(c=>c.trim()).find(c=>c.startsWith('npsso='));if(n){var%20token=n.split('=')[1];prompt('Copy%20your%20NPSSO%20token:',token);}else{alert('NPSSO%20cookie%20not%20found.%20Make%20sure%20you%20are%20logged%20in%20to%20PlayStation%20Network.');}})()\n\n**Note:** Do not log out of your PlayStation account after obtaining the NPSSO token — logging out invalidates it."
+          "npsso": "Paste the 64-character NPSSO token from the Sony SSO page. This is only needed once — the integration stores the refresh token and renews it automatically."
         },
-        "description": "To obtain your NPSSO token, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.\n\nNote: Do not log out of your PlayStation account after obtaining the NPSSO token."
+        "description": "**Step 1:** Log in to your [PlayStation account]({psn_link}).\n\n**Step 2:** [Click here]({npsso_link}) — a JSON page will appear. Copy the value of `npsso` and paste it below.\n\n**Note:** Do not log out of your PlayStation account after copying the token — logging out invalidates it immediately."
       }
     }
   },
