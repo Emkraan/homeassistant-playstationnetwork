@@ -2,5 +2,5 @@
   "name": "PlayStation Network",
   "render_readme": true,
   "homeassistant": "2024.1.0",
-  "changelog": "https://raw.githubusercontent.com/Emkraan/ha-playstation-network/main/CHANGELOG.md"
+  "changelog": "https://raw.githubusercontent.com/Emkraan/homeassistant-playstation-network/main/CHANGELOG.md"
 }

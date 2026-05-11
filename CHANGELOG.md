@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.5.3-beta (2026-05-11)
+
+### Changed
+- Repository renamed from `ha-playstation-network` to `homeassistant-playstation-network` to follow standard naming convention
+- Updated all internal URL references accordingly
+
 ## 2026.5.2-beta (2026-05-11)
 
 ### Fixed
