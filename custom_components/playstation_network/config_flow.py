@@ -175,6 +175,7 @@ class PlaystationNetworkConfigFlow(ConfigFlow, domain=DOMAIN):
             description_placeholders={
                 "npsso_link": NPSSO_LINK,
                 "psn_link": PSN_LINK,
+                "name": entry.title,
             },
         )
 

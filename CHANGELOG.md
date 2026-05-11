@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.5.4-beta (2026-05-11)
+
+### Fixed
+- `MALFORMED_ARGUMENT` on reauth/reconfigure flow — `{name}` placeholder used in the reauth step description and title was never passed as a `description_placeholder` in `config_flow.py`
+
 ## 2026.5.3-beta (2026-05-11)
 
 ### Changed

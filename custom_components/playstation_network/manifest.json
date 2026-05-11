@@ -1,7 +1,7 @@
 {
   "domain": "playstation_network",
   "name": "PlayStation Network",
-  "version": "2026.5.3-beta",
+  "version": "2026.5.4-beta",
   "codeowners": ["@Emkraan"],
   "config_flow": true,
   "dhcp": [
