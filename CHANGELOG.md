@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.5.6 (2026-05-11)
+
+Initial stable release.
+
 ## 2026.5.6-beta (2026-05-11)
 
 ### Fixed
