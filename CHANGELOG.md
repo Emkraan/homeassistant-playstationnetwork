@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.5.7 (2026-05-12)
+
+Initial stable release. Version bumped from 2026.5.6 to ensure HACS correctly promotes users from the beta track.
+
 ## 2026.5.6 (2026-05-11)
 
 Initial stable release.
