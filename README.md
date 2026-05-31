@@ -1,15 +1,15 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Emkraan/homeassistant-playstation-network/main/.github/homeassistant-playstation-network.png" alt="PlayStation Network" width="256"/>
+<img src="https://raw.githubusercontent.com/Emkraan/homeassistant-playstationnetwork/main/.github/homeassistant-playstationnetwork.png" alt="PlayStation Network" width="256"/>
 
 # PlayStation Network for Home Assistant
 
 Track your PlayStation Network presence, trophies, and active gaming sessions — with seamless token refresh that eliminates constant reauthentication.
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![GitHub release](https://img.shields.io/github/v/release/Emkraan/homeassistant-playstation-network)](https://github.com/Emkraan/homeassistant-playstation-network/releases)
+[![GitHub release](https://img.shields.io/github/v/release/Emkraan/homeassistant-playstationnetwork)](https://github.com/Emkraan/homeassistant-playstationnetwork/releases)
 [![HA Version](https://img.shields.io/badge/Home%20Assistant-2024.1.0%2B-blue)](https://www.home-assistant.io/)
-[![License](https://img.shields.io/github/license/Emkraan/homeassistant-playstation-network)](LICENSE)
+[![License](https://img.shields.io/github/license/Emkraan/homeassistant-playstationnetwork)](LICENSE)
 
 </div>
 
@@ -78,10 +78,10 @@ This integration fixes that by **persisting the refresh token** after the first 
 
 ### Via HACS (recommended)
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Emkraan&repository=homeassistant-playstation-network&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Emkraan&repository=homeassistant-playstationnetwork&category=integration)
 
 1. Click the badge above, or open HACS → Integrations → ⋮ → Custom repositories
-2. Add `https://github.com/Emkraan/homeassistant-playstation-network` as an **Integration**
+2. Add `https://github.com/Emkraan/homeassistant-playstationnetwork` as an **Integration**
 3. Search for **PlayStation Network** and install
 4. Restart Home Assistant
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.5.7-beta (2026-05-31)
+
+### Changed
+- Repository renamed from `homeassistant-playstation-network` to `homeassistant-playstationnetwork` to align with the single-word naming convention used by the other custom integrations (`homeassistant-franklinwh`, `homeassistant-meater`, `homeassistant-pitboss`, `homeassistant-familyhub`)
+- Updated all internal URL references and the repository logo filename accordingly
+
 ## 2026.5.7 (2026-05-12)
 
 Initial stable release. Version bumped from 2026.5.6 to ensure HACS correctly promotes users from the beta track.
