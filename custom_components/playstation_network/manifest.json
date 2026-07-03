@@ -87,7 +87,7 @@
       "hostname": "ps3"
     }
   ],
-  "documentation": "https://github.com/Emkraan/homeassistant-playstation-network",
+  "documentation": "https://github.com/Emkraan/homeassistant-playstationnetwork",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "quality_scale": "bronze",
