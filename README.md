@@ -119,7 +119,7 @@ Drag the link below to your browser bookmarks bar. When clicked on any PlayStati
 Once configured, the integration handles all token renewal automatically. Reauth should never be required unless:
 - HA is offline for more than 60 consecutive days
 - You revoke the session from your PSN account security settings
-- Sony invalidates the session server-side (password change, suspicious activity)
+- Sony invalidates the session server-side (password change, enabling a passkey or 2-step verification, signing out of all devices, suspicious activity)
 
 ---
 
@@ -213,6 +213,8 @@ automation:
 |---|---|---|
 | Reauth prompt immediately after setup | NPSSO obtained in the same browser session then logged out | Get a fresh NPSSO without logging out afterward |
 | Reauth prompt after 60+ days of HA downtime | Refresh token expired | Re-enter NPSSO via the reauth flow |
+| Reauth prompt after changing account security (passkey, password, 2-step verification) | Sony revoked the stored refresh token | Get a fresh NPSSO and enter it in the reauth flow |
+| `'str' object has no attribute 'get'` (version 2026.8.10 and earlier) | Revoked refresh token hidden by a PSNAWP error-parsing bug | Update to 2026.9.0 or later, then complete the reauth prompt |
 | Entities unavailable / update errors | PSN API outage or rate limit | Wait a few minutes; integration will recover automatically |
 | Friend status not updating | Friend has set their PSN profile to private | Privacy settings block presence data - this cannot be worked around |
 | `PSNAWPNotFoundError` on friend subentry | Friend deleted their account or changed online ID | Remove and re-add the subentry |
