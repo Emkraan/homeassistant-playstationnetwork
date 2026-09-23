@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.9.0 (2026-09-23)
+
+### Fixed
+- Setup stuck on "Failed setup, will retry: 'str' object has no attribute 'get'" after Sony revoked the stored refresh token (for example after enabling a passkey, changing the password, or turning on 2-step verification). PSNAWP 3.0.3 crashed while parsing Sony's OAuth error body, which hid the real failure and kept the entry in an endless retry loop.
+- A revoked or invalid refresh token (`invalid_grant`) now raises a reauth prompt instead of retrying every 10 minutes, during both setup and scheduled updates.
+
 ## 2026.8.10 (2026-08-10)
 
 ### Fixed

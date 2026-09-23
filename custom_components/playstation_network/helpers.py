@@ -12,7 +12,10 @@ from pyrate_limiter import Duration, Rate
 
 from homeassistant.core import HomeAssistant
 
+from .compat import patch_psnawp
 from .const import SUPPORTED_PLATFORMS
+
+patch_psnawp()
 
 LEGACY_PLATFORMS = {PlatformType.PS3, PlatformType.PS4, PlatformType.PS_VITA}
 

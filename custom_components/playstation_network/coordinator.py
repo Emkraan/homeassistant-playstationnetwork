@@ -29,6 +29,7 @@ from homeassistant.exceptions import (
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
+from .compat import is_auth_error
 from .const import CONF_TOKEN_RESPONSE, DOMAIN
 from .helpers import PlaystationNetwork, PlaystationNetworkData
 
@@ -85,6 +86,11 @@ class PlayStationNetworkBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
                 translation_key="not_ready",
             ) from error
         except (PSNAWPServerError, PSNAWPClientError) as error:
+            if is_auth_error(error):
+                raise ConfigEntryAuthFailed(
+                    translation_domain=DOMAIN,
+                    translation_key="not_ready",
+                ) from error
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_failed",
@@ -126,6 +132,11 @@ class PlaystationNetworkUserDataCoordinator(
                 translation_key="not_ready",
             ) from error
         except (PSNAWPServerError, PSNAWPClientError) as error:
+            if is_auth_error(error):
+                raise ConfigEntryAuthFailed(
+                    translation_domain=DOMAIN,
+                    translation_key="not_ready",
+                ) from error
             raise ConfigEntryNotReady(
                 translation_domain=DOMAIN,
                 translation_key="update_failed",
@@ -263,6 +274,11 @@ class PlaystationNetworkFriendDataCoordinator(
             ) from error
 
         except (PSNAWPServerError, PSNAWPClientError) as error:
+            if is_auth_error(error):
+                raise ConfigEntryAuthFailed(
+                    translation_domain=DOMAIN,
+                    translation_key="not_ready",
+                ) from error
             _LOGGER.debug("Update failed", exc_info=True)
             raise ConfigEntryNotReady(
                 translation_domain=DOMAIN,
