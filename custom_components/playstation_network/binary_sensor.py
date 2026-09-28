@@ -34,9 +34,7 @@ class PlaystationNetworkBinarySensor(StrEnum):
     PS_PLUS_STATUS = "ps_plus_status"
 
 
-BINARY_SENSOR_DESCRIPTIONS: tuple[
-    PlaystationNetworkBinarySensorEntityDescription, ...
-] = (
+BINARY_SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkBinarySensorEntityDescription, ...] = (
     PlaystationNetworkBinarySensorEntityDescription(
         key=PlaystationNetworkBinarySensor.PS_PLUS_STATUS,
         translation_key=PlaystationNetworkBinarySensor.PS_PLUS_STATUS,

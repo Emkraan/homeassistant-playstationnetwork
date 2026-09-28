@@ -24,9 +24,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(
-    hass: HomeAssistant, entry: PlaystationNetworkConfigEntry
-) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: PlaystationNetworkConfigEntry) -> bool:
     """Set up Playstation Network from a config entry."""
 
     # Pass any previously persisted token_response so the library can skip
@@ -50,9 +48,7 @@ async def async_setup_entry(
     friends = {}
 
     for subentry_id, subentry in entry.subentries.items():
-        friend_coordinator = PlaystationNetworkFriendDataCoordinator(
-            hass, psn, entry, subentry
-        )
+        friend_coordinator = PlaystationNetworkFriendDataCoordinator(hass, psn, entry, subentry)
         await friend_coordinator.async_config_entry_first_refresh()
         friends[subentry_id] = friend_coordinator
 
@@ -67,15 +63,11 @@ async def async_setup_entry(
     return True
 
 
-async def _async_update_listener(
-    hass: HomeAssistant, entry: PlaystationNetworkConfigEntry
-) -> None:
+async def _async_update_listener(hass: HomeAssistant, entry: PlaystationNetworkConfigEntry) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(
-    hass: HomeAssistant, entry: PlaystationNetworkConfigEntry
-) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: PlaystationNetworkConfigEntry) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

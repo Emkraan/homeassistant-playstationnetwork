@@ -12,9 +12,7 @@ from .coordinator import PlayStationNetworkBaseCoordinator
 from .helpers import PlaystationNetworkData
 
 
-class PlaystationNetworkServiceEntity(
-    CoordinatorEntity[PlayStationNetworkBaseCoordinator]
-):
+class PlaystationNetworkServiceEntity(CoordinatorEntity[PlayStationNetworkBaseCoordinator]):
     """Common entity class for PlayStationNetwork Service entities."""
 
     _attr_has_entity_name = True

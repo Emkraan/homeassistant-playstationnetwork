@@ -3,16 +3,10 @@
 from enum import StrEnum
 from typing import TYPE_CHECKING
 
-from psnawp_api.core.psnawp_exceptions import (
-    PSNAWPClientError,
-    PSNAWPForbiddenError,
-    PSNAWPNotFoundError,
-    PSNAWPServerError,
-)
-from psnawp_api.models.group.group import Group
-
 from homeassistant.components.notify import (
     DOMAIN as NOTIFY_DOMAIN,
+)
+from homeassistant.components.notify import (
     NotifyEntity,
     NotifyEntityDescription,
 )
@@ -21,6 +15,13 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from psnawp_api.core.psnawp_exceptions import (
+    PSNAWPClientError,
+    PSNAWPForbiddenError,
+    PSNAWPNotFoundError,
+    PSNAWPServerError,
+)
+from psnawp_api.models.group.group import Group
 
 from .const import DOMAIN
 from .coordinator import (
@@ -61,8 +62,7 @@ async def async_setup_entry(
         new_groups = set(coordinator.data.keys()) - groups_added
         if new_groups:
             async_add_entities(
-                PlaystationNetworkNotifyEntity(coordinator, group_id)
-                for group_id in new_groups
+                PlaystationNetworkNotifyEntity(coordinator, group_id) for group_id in new_groups
             )
             groups_added |= new_groups
 
@@ -86,9 +86,7 @@ async def async_setup_entry(
         if new_friends:
             async_add_entities(
                 [
-                    PlaystationNetworkDirectMessageNotifyEntity(
-                        friends_list, account_id
-                    )
+                    PlaystationNetworkDirectMessageNotifyEntity(friends_list, account_id)
                     for account_id in new_friends
                 ],
             )
