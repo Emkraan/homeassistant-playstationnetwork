@@ -1,22 +1,10 @@
 """Coordinator for the PlayStation Network Integration."""
 
+import logging
 from abc import abstractmethod
 from dataclasses import dataclass
 from datetime import timedelta
-import logging
 from typing import TYPE_CHECKING, Any
-
-from psnawp_api.core.psnawp_exceptions import (
-    PSNAWPAuthenticationError,
-    PSNAWPClientError,
-    PSNAWPError,
-    PSNAWPForbiddenError,
-    PSNAWPNotFoundError,
-    PSNAWPServerError,
-)
-from psnawp_api.models import User
-from psnawp_api.models.group.group_datatypes import GroupDetails
-from psnawp_api.models.trophies import TrophyTitle
 
 from homeassistant.config_entries import ConfigEntry, ConfigSubentry
 from homeassistant.const import CONF_NAME
@@ -28,6 +16,17 @@ from homeassistant.exceptions import (
 )
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from psnawp_api.core.psnawp_exceptions import (
+    PSNAWPAuthenticationError,
+    PSNAWPClientError,
+    PSNAWPError,
+    PSNAWPForbiddenError,
+    PSNAWPNotFoundError,
+    PSNAWPServerError,
+)
+from psnawp_api.models import User
+from psnawp_api.models.group.group_datatypes import GroupDetails
+from psnawp_api.models.trophies import TrophyTitle
 
 from .compat import is_auth_error
 from .const import CONF_TOKEN_RESPONSE, DOMAIN
@@ -49,7 +48,7 @@ class PlaystationNetworkRuntimeData:
     friends_list: "PlaystationNetworkFriendlistCoordinator"
 
 
-class PlayStationNetworkBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
+class PlayStationNetworkBaseCoordinator[DataT](DataUpdateCoordinator[DataT]):
     """Base coordinator for PSN."""
 
     config_entry: PlaystationNetworkConfigEntry
@@ -73,10 +72,10 @@ class PlayStationNetworkBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
         self.psn = psn
 
     @abstractmethod
-    async def update_data(self) -> _DataT:
+    async def update_data(self) -> DataT:
         """Update coordinator data."""
 
-    async def _async_update_data(self) -> _DataT:
+    async def _async_update_data(self) -> DataT:
         """Get the latest data from the PSN."""
         try:
             return await self.update_data()
@@ -169,9 +168,7 @@ class PlaystationNetworkTrophyTitlesCoordinator(
         return self.psn.trophy_titles
 
 
-class PlaystationNetworkFriendlistCoordinator(
-    PlayStationNetworkBaseCoordinator[dict[str, User]]
-):
+class PlaystationNetworkFriendlistCoordinator(PlayStationNetworkBaseCoordinator[dict[str, User]]):
     """Friend list data update coordinator for PSN."""
 
     _update_interval = timedelta(hours=3)
@@ -180,9 +177,7 @@ class PlaystationNetworkFriendlistCoordinator(
         """Update trophy titles data."""
 
         self.psn.friends_list = await self.hass.async_add_executor_job(
-            lambda: {
-                friend.account_id: friend for friend in self.psn.user.friends_list()
-            }
+            lambda: {friend.account_id: friend for friend in self.psn.user.friends_list()}
         )
         await self.config_entry.runtime_data.user_data.async_request_refresh()
         return self.psn.friends_list
@@ -239,9 +234,7 @@ class PlaystationNetworkFriendDataCoordinator(
         subentry: ConfigSubentry,
     ) -> None:
         """Initialize the Coordinator."""
-        self._update_interval = timedelta(
-            seconds=max(9 * len(config_entry.subentries), 180)
-        )
+        self._update_interval = timedelta(seconds=max(9 * len(config_entry.subentries), 180))
         super().__init__(hass, psn, config_entry)
         self.subentry = subentry
 
@@ -249,9 +242,9 @@ class PlaystationNetworkFriendDataCoordinator(
         """Set up the coordinator."""
         if TYPE_CHECKING:
             assert self.subentry.unique_id
-        self.user = self.psn.friends_list.get(
-            self.subentry.unique_id
-        ) or self.psn.psn.user(account_id=self.subentry.unique_id)
+        self.user = self.psn.friends_list.get(self.subentry.unique_id) or self.psn.psn.user(
+            account_id=self.subentry.unique_id
+        )
 
         self.profile = self.user.profile()
 

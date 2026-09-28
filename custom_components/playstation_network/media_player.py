@@ -3,8 +3,6 @@
 import logging
 from typing import TYPE_CHECKING
 
-from psnawp_api.models.trophies import PlatformType
-
 from homeassistant.components.media_player import (
     MediaPlayerDeviceClass,
     MediaPlayerEntity,
@@ -16,6 +14,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from psnawp_api.models.trophies import PlatformType
 
 from . import (
     PlaystationNetworkConfigEntry,
@@ -68,9 +67,7 @@ async def async_setup_entry(
 
     for platform in SUPPORTED_PLATFORMS:
         if device_reg.async_get_device(
-            identifiers={
-                (DOMAIN, f"{coordinator.config_entry.unique_id}_{platform.value}")
-            }
+            identifiers={(DOMAIN, f"{coordinator.config_entry.unique_id}_{platform.value}")}
         ):
             entities.append(PsnMediaPlayerEntity(coordinator, platform, trophy_titles))
             devices_added.add(platform)
@@ -118,13 +115,8 @@ class PsnMediaPlayerEntity(
     def state(self) -> MediaPlayerState:
         """Media Player state getter."""
         session = self.coordinator.data.active_sessions.get(self.key)
-        if session:
-            if session.status == "online":
-                return (
-                    MediaPlayerState.PLAYING
-                    if session.title_id is not None
-                    else MediaPlayerState.ON
-                )
+        if session and session.status == "online":
+            return MediaPlayerState.PLAYING if session.title_id is not None else MediaPlayerState.ON
         return MediaPlayerState.OFF
 
     @property

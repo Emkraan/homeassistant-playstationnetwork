@@ -4,13 +4,12 @@ from dataclasses import dataclass, field
 from functools import partial
 from typing import Any
 
+from homeassistant.core import HomeAssistant
 from psnawp_api import PSNAWP
 from psnawp_api.models.client import Client
 from psnawp_api.models.trophies import PlatformType, TrophySummary, TrophyTitle
 from psnawp_api.models.user import User
 from pyrate_limiter import Duration, Rate
-
-from homeassistant.core import HomeAssistant
 
 from .compat import patch_psnawp
 from .const import SUPPORTED_PLATFORMS
@@ -83,9 +82,7 @@ class PlaystationNetwork:
         self.client = self.psn.me()
         self.shareable_profile_link = self.client.get_shareable_profile_link()
         self.trophy_titles = list(self.user.trophy_titles(page_size=500))
-        self.friends_list = {
-            friend.account_id: friend for friend in self.user.friends_list()
-        }
+        self.friends_list = {friend.account_id: friend for friend in self.user.friends_list()}
 
     async def async_setup(self) -> None:
         """Setup PSN."""
@@ -93,9 +90,7 @@ class PlaystationNetwork:
 
     async def get_user(self) -> User:
         """Get the user object from the PlayStation Network."""
-        self.user = await self.hass.async_add_executor_job(
-            partial(self.psn.user, online_id="me")
-        )
+        self.user = await self.hass.async_add_executor_job(partial(self.psn.user, online_id="me"))
         return self.user
 
     def retrieve_psn_data(self) -> PlaystationNetworkData:
@@ -103,8 +98,7 @@ class PlaystationNetwork:
         data = PlaystationNetworkData()
 
         data.registered_platforms = {
-            PlatformType(device["deviceType"])
-            for device in self.client.get_account_devices()
+            PlatformType(device["deviceType"]) for device in self.client.get_account_devices()
         } & SUPPORTED_PLATFORMS
 
         data.presence = self.user.get_presence()
@@ -130,17 +124,13 @@ class PlaystationNetwork:
                 data.presence["basicPresence"]["primaryPlatformInfo"]["platform"]
             )
             game_title_info: dict[str, Any] = next(
-                iter(
-                    data.presence.get("basicPresence", {}).get("gameTitleInfoList", [])
-                ),
+                iter(data.presence.get("basicPresence", {}).get("gameTitleInfoList", [])),
                 {},
             )
             status = data.presence.get("basicPresence", {}).get("primaryPlatformInfo")[
                 "onlineStatus"
             ]
-            title_format = (
-                PlatformType(fmt) if (fmt := game_title_info.get("format")) else None
-            )
+            title_format = PlatformType(fmt) if (fmt := game_title_info.get("format")) else None
 
             data.active_sessions[primary_platform] = SessionData(
                 platform=primary_platform,
@@ -149,8 +139,7 @@ class PlaystationNetwork:
                 title_name=game_title_info.get("titleName"),
                 format=title_format,
                 media_image_url=(
-                    game_title_info.get("conceptIconUrl")
-                    or game_title_info.get("npTitleIconUrl")
+                    game_title_info.get("conceptIconUrl") or game_title_info.get("npTitleIconUrl")
                 ),
             )
 
@@ -170,9 +159,7 @@ class PlaystationNetwork:
                         account_id="me",
                         np_communication_id="",
                     ).get_title_icon_url()
-                elif platform is PlatformType.PS_VITA and game_title_info.get(
-                    "npTitleId"
-                ):
+                elif platform is PlatformType.PS_VITA and game_title_info.get("npTitleId"):
                     media_image_url = self.get_psvita_title_icon_url(game_title_info)
                 else:
                     media_image_url = None
@@ -197,8 +184,7 @@ class PlaystationNetwork:
             (
                 title.title_icon_url
                 for title in self.trophy_titles
-                if game_title_info["titleName"]
-                == normalize_title(title.title_name or "")
+                if game_title_info["titleName"] == normalize_title(title.title_name or "")
                 and next(iter(title.title_platform)) == PlatformType.PS_VITA
             ),
             None,
@@ -218,10 +204,6 @@ def get_game_title_info(presence: dict[str, Any]) -> dict[str, Any]:
 
     return (
         next((title for title in game_title_info), {})
-        if (
-            game_title_info := presence.get("basicPresence", {}).get(
-                "gameTitleInfoList"
-            )
-        )
+        if (game_title_info := presence.get("basicPresence", {}).get("gameTitleInfoList"))
         else {}
     )

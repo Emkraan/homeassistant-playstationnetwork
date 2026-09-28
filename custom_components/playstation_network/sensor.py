@@ -57,17 +57,13 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
     PlaystationNetworkSensorEntityDescription(
         key=PlaystationNetworkSensor.TROPHY_LEVEL,
         translation_key=PlaystationNetworkSensor.TROPHY_LEVEL,
-        value_fn=(
-            lambda psn: psn.trophy_summary.trophy_level if psn.trophy_summary else None
-        ),
+        value_fn=(lambda psn: psn.trophy_summary.trophy_level if psn.trophy_summary else None),
         state_class=SensorStateClass.MEASUREMENT,
     ),
     PlaystationNetworkSensorEntityDescription(
         key=PlaystationNetworkSensor.TROPHY_LEVEL_PROGRESS,
         translation_key=PlaystationNetworkSensor.TROPHY_LEVEL_PROGRESS,
-        value_fn=(
-            lambda psn: psn.trophy_summary.progress if psn.trophy_summary else None
-        ),
+        value_fn=(lambda psn: psn.trophy_summary.progress if psn.trophy_summary else None),
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -75,11 +71,7 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
         key=PlaystationNetworkSensor.EARNED_TROPHIES_PLATINUM,
         translation_key=PlaystationNetworkSensor.EARNED_TROPHIES_PLATINUM,
         value_fn=(
-            lambda psn: (
-                psn.trophy_summary.earned_trophies.platinum
-                if psn.trophy_summary
-                else None
-            )
+            lambda psn: psn.trophy_summary.earned_trophies.platinum if psn.trophy_summary else None
         ),
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -87,9 +79,7 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
         key=PlaystationNetworkSensor.EARNED_TROPHIES_GOLD,
         translation_key=PlaystationNetworkSensor.EARNED_TROPHIES_GOLD,
         value_fn=(
-            lambda psn: (
-                psn.trophy_summary.earned_trophies.gold if psn.trophy_summary else None
-            )
+            lambda psn: psn.trophy_summary.earned_trophies.gold if psn.trophy_summary else None
         ),
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -97,11 +87,7 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
         key=PlaystationNetworkSensor.EARNED_TROPHIES_SILVER,
         translation_key=PlaystationNetworkSensor.EARNED_TROPHIES_SILVER,
         value_fn=(
-            lambda psn: (
-                psn.trophy_summary.earned_trophies.silver
-                if psn.trophy_summary
-                else None
-            )
+            lambda psn: psn.trophy_summary.earned_trophies.silver if psn.trophy_summary else None
         ),
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -109,11 +95,7 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
         key=PlaystationNetworkSensor.EARNED_TROPHIES_BRONZE,
         translation_key=PlaystationNetworkSensor.EARNED_TROPHIES_BRONZE,
         value_fn=(
-            lambda psn: (
-                psn.trophy_summary.earned_trophies.bronze
-                if psn.trophy_summary
-                else None
-            )
+            lambda psn: psn.trophy_summary.earned_trophies.bronze if psn.trophy_summary else None
         ),
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -126,9 +108,7 @@ SENSOR_DESCRIPTIONS: tuple[PlaystationNetworkSensorEntityDescription, ...] = (
         key=PlaystationNetworkSensor.LAST_ONLINE,
         translation_key=PlaystationNetworkSensor.LAST_ONLINE,
         value_fn=(
-            lambda psn: dt_util.parse_datetime(
-                psn.presence["basicPresence"]["lastAvailableDate"]
-            )
+            lambda psn: dt_util.parse_datetime(psn.presence["basicPresence"]["lastAvailableDate"])
         ),
         available_fn=lambda psn: "lastAvailableDate" in psn.presence["basicPresence"],
         device_class=SensorDeviceClass.TIMESTAMP,
@@ -202,9 +182,9 @@ class PlaystationNetworkSensorBaseEntity(
     def entity_picture(self) -> str | None:
         """Return the entity picture to use in the frontend, if any."""
         if self.entity_description.key is PlaystationNetworkSensor.ONLINE_ID and (
-            profile_pictures := self.coordinator.data.profile.get(
-                "personalDetail", {}
-            ).get("profilePictures")
+            profile_pictures := self.coordinator.data.profile.get("personalDetail", {}).get(
+                "profilePictures"
+            )
         ):
             return next(
                 (pic.get("url") for pic in profile_pictures if pic.get("size") == "xl"),
@@ -216,9 +196,7 @@ class PlaystationNetworkSensorBaseEntity(
     def available(self) -> bool:
         """Return True if entity is available."""
 
-        return super().available and self.entity_description.available_fn(
-            self.coordinator.data
-        )
+        return super().available and self.entity_description.available_fn(self.coordinator.data)
 
 
 class PlaystationNetworkSensorEntity(PlaystationNetworkSensorBaseEntity):

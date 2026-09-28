@@ -3,10 +3,9 @@
 from dataclasses import asdict
 from typing import Any
 
-from psnawp_api.models.trophies import PlatformType
-
 from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.core import HomeAssistant
+from psnawp_api.models.trophies import PlatformType
 
 from .const import CONF_TOKEN_RESPONSE
 from .coordinator import PlaystationNetworkConfigEntry
@@ -19,7 +18,6 @@ TO_REDACT = {
     "onlineId",
     "url",
     "username",
-    "onlineId",
     "accountId",
     "members",
     "body",
@@ -40,9 +38,7 @@ async def async_get_config_entry_diagnostics(
     coordinator = entry.runtime_data.user_data
     groups = entry.runtime_data.groups
     return {
-        "data": async_redact_data(
-            _serialize_platform_types(asdict(coordinator.data)), TO_REDACT
-        ),
+        "data": async_redact_data(_serialize_platform_types(asdict(coordinator.data)), TO_REDACT),
         "groups": async_redact_data(groups.data, TO_REDACT),
         # Indicate token persistence status without exposing the token itself.
         "token_persistence": {
@@ -62,10 +58,7 @@ def _serialize_platform_types(data: Any) -> Any:
         }
     if isinstance(data, set):
         return sorted(
-            [
-                record.value if isinstance(record, PlatformType) else record
-                for record in data
-            ]
+            [record.value if isinstance(record, PlatformType) else record for record in data]
         )
     if isinstance(data, PlatformType):
         return data.value

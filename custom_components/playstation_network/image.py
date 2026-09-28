@@ -52,11 +52,7 @@ IMAGE_DESCRIPTIONS_ALL: tuple[PlaystationNetworkImageEntityDescription, ...] = (
         translation_key=PlaystationNetworkImage.AVATAR,
         image_url_fn=(
             lambda data: next(
-                (
-                    pic.get("url")
-                    for pic in data.profile["avatars"]
-                    if pic.get("size") == "xl"
-                ),
+                (pic.get("url") for pic in data.profile["avatars"] if pic.get("size") == "xl"),
                 None,
             )
         ),

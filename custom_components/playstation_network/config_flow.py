@@ -1,18 +1,10 @@
 """Config flow for the PlayStation Network integration."""
 
-from collections.abc import Mapping
 import logging
+from collections.abc import Mapping
 from typing import Any
 
-from psnawp_api.core.psnawp_exceptions import (
-    PSNAWPAuthenticationError,
-    PSNAWPError,
-    PSNAWPInvalidTokenError,
-    PSNAWPNotFoundError,
-)
-from psnawp_api.utils.misc import parse_npsso_token
 import voluptuous as vol
-
 from homeassistant.config_entries import (
     SOURCE_REAUTH,
     ConfigEntry,
@@ -29,6 +21,13 @@ from homeassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
 )
+from psnawp_api.core.psnawp_exceptions import (
+    PSNAWPAuthenticationError,
+    PSNAWPError,
+    PSNAWPInvalidTokenError,
+    PSNAWPNotFoundError,
+)
+from psnawp_api.utils.misc import parse_npsso_token
 
 from .const import CONF_ACCOUNT_ID, CONF_NPSSO, CONF_TOKEN_RESPONSE, DOMAIN, NPSSO_LINK, PSN_LINK
 from .coordinator import PlaystationNetworkConfigEntry
@@ -50,9 +49,7 @@ class PlaystationNetworkConfigFlow(ConfigFlow, domain=DOMAIN):
         """Return subentries supported by this integration."""
         return {"friend": FriendSubentryFlowHandler}
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle the initial step."""
         errors: dict[str, str] = {}
         npsso: str | None = None
@@ -82,9 +79,7 @@ class PlaystationNetworkConfigFlow(ConfigFlow, domain=DOMAIN):
                         if user.account_id in {
                             subentry.unique_id for subentry in entry.subentries.values()
                         }:
-                            return self.async_abort(
-                                reason="already_configured_as_subentry"
-                            )
+                            return self.async_abort(reason="already_configured_as_subentry")
 
                     # Store the token_response alongside the NPSSO so we can
                     # inject it back on restart and avoid re-authentication.
@@ -108,9 +103,7 @@ class PlaystationNetworkConfigFlow(ConfigFlow, domain=DOMAIN):
             },
         )
 
-    async def async_step_reauth(
-        self, entry_data: Mapping[str, Any]
-    ) -> ConfigFlowResult:
+    async def async_step_reauth(self, entry_data: Mapping[str, Any]) -> ConfigFlowResult:
         """Perform reauth upon an API authentication error."""
         return await self.async_step_reauth_confirm()
 
@@ -183,9 +176,7 @@ class PlaystationNetworkConfigFlow(ConfigFlow, domain=DOMAIN):
 class FriendSubentryFlowHandler(ConfigSubentryFlow):
     """Handle subentry flow for adding a friend."""
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> SubentryFlowResult:
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> SubentryFlowResult:
         """Subentry user flow."""
         config_entry: PlaystationNetworkConfigEntry = self._get_entry()
         if config_entry.state is not ConfigEntryState.LOADED:
@@ -194,9 +185,7 @@ class FriendSubentryFlowHandler(ConfigSubentryFlow):
 
         if user_input is not None:
             config_entries = self.hass.config_entries.async_entries(DOMAIN)
-            if user_input[CONF_ACCOUNT_ID] in {
-                entry.unique_id for entry in config_entries
-            }:
+            if user_input[CONF_ACCOUNT_ID] in {entry.unique_id for entry in config_entries}:
                 return self.async_abort(reason="already_configured_as_entry")
             for entry in config_entries:
                 if user_input[CONF_ACCOUNT_ID] in {
