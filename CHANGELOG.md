@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.10.0 (2026-10-03)
+
+### Fixed
+- Manifest requirements now use minimum versions (`PSNAWP>=3.0.3`, `pyrate-limiter>=4.5.0`) instead of exact pins. Home Assistant depends on both packages itself, and hassfest now rejects integrations that pin them exactly, because an exact pin cannot follow along when Home Assistant updates them.
+
 ## 2026.9.0 (2026-09-23)
 
 ### Fixed
