@@ -94,8 +94,8 @@
   "issue_tracker": "https://github.com/Emkraan/homeassistant-playstationnetwork/issues",
   "quality_scale": "bronze",
   "requirements": [
-    "PSNAWP==3.0.3",
-    "pyrate-limiter==4.5.0"
+    "PSNAWP>=3.0.3",
+    "pyrate-limiter>=4.5.0"
   ],
-  "version": "2026.9.0"
+  "version": "2026.10.0"
 }
