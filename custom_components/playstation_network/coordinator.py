@@ -96,21 +96,33 @@ class PlayStationNetworkBaseCoordinator[DataT](DataUpdateCoordinator[DataT]):
             ) from error
 
     def _persist_token_if_changed(self) -> None:
-        """Check if the token has changed and persist it to the config entry."""
-        try:
-            new_token = self.psn.authenticator.token_response
-        except Exception:  # noqa: BLE001
-            return
+        """Store the current token pair on the config entry if it rotated."""
+        persist_current_token(self.hass, self.config_entry, self.psn)
 
-        if new_token is None:
-            return
 
-        stored_token = self.config_entry.data.get(CONF_TOKEN_RESPONSE)
-        if new_token != stored_token:
-            self.hass.config_entries.async_update_entry(
-                self.config_entry,
-                data={**self.config_entry.data, CONF_TOKEN_RESPONSE: new_token},
-            )
+def persist_current_token(
+    hass: HomeAssistant,
+    entry: PlaystationNetworkConfigEntry,
+    psn: PlaystationNetwork,
+) -> None:
+    """Store the token pair the client holds on the config entry, if changed.
+
+    Runs on the event loop: a token rotation is reported on the worker thread
+    that triggered it and hops back here through call_soon_threadsafe. A
+    token-only change never needs an entry reload - no platform reads the
+    stored pair before setup, and a reload would tear down every coordinator
+    and let an in-flight request from the discarded instance rotate the token
+    again behind the reloaded instance's back.
+    """
+    new_token = psn.authenticator.token_response
+    if new_token is None:
+        return
+
+    if entry.data.get(CONF_TOKEN_RESPONSE) != new_token:
+        hass.config_entries.async_update_entry(
+            entry,
+            data={**entry.data, CONF_TOKEN_RESPONSE: dict(new_token)},
+        )
 
 
 class PlaystationNetworkUserDataCoordinator(
