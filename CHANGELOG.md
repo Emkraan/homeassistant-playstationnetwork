@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.10.1 (2026-10-24)
+
+### Fixed
+- Silent token renewal no longer prompts reauthentication when more than one coordinator notices the access token expiring at the same moment. PSNAWP refreshes inline on whichever worker thread makes the next API call, and Sony rotates the refresh token on every renewal, so a second concurrent refresh replayed the spent token and came back as `invalid_grant`, which the integration could only report as a failed login. Token refreshes are now serialized per account and start a minute before the real expiry, and each rotated token pair is stored on the config entry the moment it rotates. (#39)
+- Storing a rotated token no longer reloads the whole integration. The entry update listener reloaded on every stored value change, so each renewal tore down and rebuilt every entity, and a request still in flight on the discarded instance could rotate the token again behind the reloaded instance's back and force a reauth prompt.
+
 ## 2026.10.0 (2026-10-03)
 
 ### Fixed

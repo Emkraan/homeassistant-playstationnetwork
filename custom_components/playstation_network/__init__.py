@@ -1,5 +1,7 @@
 """The PlayStation Network integration."""
 
+from functools import partial
+
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
@@ -12,6 +14,7 @@ from .coordinator import (
     PlaystationNetworkRuntimeData,
     PlaystationNetworkTrophyTitlesCoordinator,
     PlaystationNetworkUserDataCoordinator,
+    persist_current_token,
 )
 from .helpers import PlaystationNetwork
 
@@ -33,6 +36,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: PlaystationNetworkConfig
         hass,
         entry.data[CONF_NPSSO],
         token_response=entry.data.get(CONF_TOKEN_RESPONSE),
+    )
+
+    # Sony rotates the refresh token on every renewal, on whichever worker
+    # thread triggers it. Store each rotated pair on the entry the moment it
+    # rotates, so a restart can never find a spent token. The rotation report
+    # arrives on that worker thread, so hop to the event loop for the entry
+    # update; a token change alone never needs a reload.
+    psn.on_token_rotated = partial(
+        hass.loop.call_soon_threadsafe,
+        persist_current_token,
+        hass,
+        entry,
+        psn,
     )
 
     coordinator = PlaystationNetworkUserDataCoordinator(hass, psn, entry)
@@ -58,14 +74,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: PlaystationNetworkConfig
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
-    entry.async_on_unload(entry.add_update_listener(_async_update_listener))
-
     return True
-
-
-async def _async_update_listener(hass: HomeAssistant, entry: PlaystationNetworkConfigEntry) -> None:
-    """Handle update."""
-    await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: PlaystationNetworkConfigEntry) -> bool:

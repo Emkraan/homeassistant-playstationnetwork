@@ -1,5 +1,6 @@
 """Helper methods for common PlayStation Network integration operations."""
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import partial
 from typing import Any
@@ -11,7 +12,7 @@ from psnawp_api.models.trophies import PlatformType, TrophySummary, TrophyTitle
 from psnawp_api.models.user import User
 from pyrate_limiter import Duration, Rate
 
-from .compat import patch_psnawp
+from .compat import install_refresh_guard, patch_psnawp
 from .const import SUPPORTED_PLATFORMS
 
 patch_psnawp()
@@ -59,10 +60,16 @@ class PlaystationNetwork:
         """Initialize the class with the npsso token."""
         rate = Rate(300, Duration.MINUTE * 15)
         self.psn = PSNAWP(npsso, rate_limit=rate)
+        # Set by the integration once the config entry exists: called on the
+        # worker thread whenever Sony rotates the token pair.
+        self.on_token_rotated: Callable[[], None] | None = None
         # If a previously persisted token_response is available, inject it so
-        # the library can skip re-authentication on startup.
+        # the library can skip re-authentication on startup. Copy it first:
+        # the guard's expiry bookkeeping must never mutate the entry data the
+        # pair was read from.
         if token_response is not None:
-            self.psn.authenticator.token_response = token_response
+            self.psn.authenticator.token_response = dict(token_response)
+        install_refresh_guard(self.psn.authenticator, self._report_rotation)
         self.client: Client
         self.hass = hass
         self.user: User
@@ -70,6 +77,11 @@ class PlaystationNetwork:
         self.trophy_titles: list[TrophyTitle] = []
         self._title_icon_urls: dict[str, str] = {}
         self.friends_list: dict[str, User] = {}
+
+    def _report_rotation(self) -> None:
+        """Hand a freshly rotated token pair to the owner, if one is listening."""
+        if self.on_token_rotated is not None:
+            self.on_token_rotated()
 
     @property
     def authenticator(self):
