@@ -1,6 +1,6 @@
 name: Bug Report
 description: Report a problem with the PlayStation Network integration
-labels: ["bug"]
+labels: ["type:bug"]
 body:
   - type: markdown
     attributes:
